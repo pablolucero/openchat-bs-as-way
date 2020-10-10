@@ -44,7 +44,7 @@ class TestXXX {
     @Test
     void createdPublisherCanFollowOtherPublishers() {
         Publisher follower = createPepeSanchez();
-        Publisher followee = Publisher.named("Juan Perez", "", "");
+        Publisher followee = createJuanPerez();
 
         follower.follow(followee);
 
@@ -64,6 +64,27 @@ class TestXXX {
 
         assertEquals(Publisher.CAN_NOT_FOLLOW_SELF, error.getMessage());
         assertTrue(follower.hasNoFollowees());
+    }
+
+    @Test
+    void publisherCanNotFollowSamePersonTwice() {
+        Publisher follower = createPepeSanchez();
+        Publisher followee = createJuanPerez();
+        follower.follow(followee);
+
+        final RuntimeException error = assertThrows(
+                RuntimeException.class,
+                () -> follower.follow(followee)
+        );
+
+        assertEquals(Publisher.CAN_NOT_FOLLOW_TWICE, error.getMessage());
+        assertFalse(follower.hasNoFollowees());
+        assertTrue(follower.doesFollow(followee));
+        assertEquals(1, follower.numberOfFollowees());
+    }
+
+    private Publisher createJuanPerez() {
+        return Publisher.named("Juan Perez", "", "");
     }
 
     private Publisher createPepeSanchez() {
