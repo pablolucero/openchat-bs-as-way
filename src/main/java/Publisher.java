@@ -4,6 +4,7 @@ import java.util.List;
 public class Publisher {
 
     public static final String INVALID_NAME = "Name cannot be blank";
+    public static final String CAN_NOT_FOLLOW_SELF = "Can not follow self";
 
     private final String name;
     private final List<Publisher> followees = new ArrayList<>();
@@ -30,6 +31,7 @@ public class Publisher {
     }
 
     public void follow(Publisher followee) {
+        if (this.equals(followee)) throw new RuntimeException(CAN_NOT_FOLLOW_SELF);
         followees.add(followee);
     }
 

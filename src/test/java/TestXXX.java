@@ -53,6 +53,19 @@ class TestXXX {
         assertEquals(1, follower.numberOfFollowees());
     }
 
+    @Test
+    void publisherCanNotFollowSelf() {
+        Publisher follower = createPepeSanchez();
+
+        final RuntimeException error = assertThrows(
+                RuntimeException.class,
+                () -> follower.follow(follower)
+        );
+
+        assertEquals(Publisher.CAN_NOT_FOLLOW_SELF, error.getMessage());
+        assertTrue(follower.hasNoFollowees());
+    }
+
     private Publisher createPepeSanchez() {
         return Publisher.named(PEPE_SANCHEZ_NAME, PEPE_SANCHEZ_PASSWORD, "about");
     }
