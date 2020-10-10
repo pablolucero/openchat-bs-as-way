@@ -1,8 +1,12 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Publisher {
 
     public static final String INVALID_NAME = "Name cannot be blank";
 
     private final String name;
+    private final List<Publisher> followees = new ArrayList<>();
 
     public Publisher(String name) {
         this.name = name;
@@ -22,6 +26,18 @@ public class Publisher {
     }
 
     public boolean hasNoFollowees() {
-        return true;
+        return followees.isEmpty();
+    }
+
+    public void follow(Publisher followee) {
+        followees.add(followee);
+    }
+
+    public boolean doesFollow(Publisher potentialFollowee) {
+        return followees.contains(potentialFollowee);
+    }
+
+    public int numberOfFollowees() {
+        return followees.size();
     }
 }
