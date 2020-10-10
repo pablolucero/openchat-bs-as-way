@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Publisher {
 
@@ -64,5 +65,11 @@ public class Publisher {
         publications.add(newPublication);
 
         return newPublication;
+    }
+
+    public List<Publication> timeLine() {
+        return publications.stream()
+                .sorted((left, right) -> left.comparePublicationTimeWith(right))
+                .collect(Collectors.toList());
     }
 }

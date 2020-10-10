@@ -21,4 +21,12 @@ public class Publication {
     public boolean hasPublishAt(LocalDateTime potentialTime) {
         return publicationTime.equals(potentialTime);
     }
+
+    public int comparePublicationTimeWith(Publication publicationToCompare) {
+        return publicationTime.compareTo(publicationToCompare.publicationTime());
+    }
+
+    private LocalDateTime publicationTime() {
+        return publicationTime;
+    }
 }

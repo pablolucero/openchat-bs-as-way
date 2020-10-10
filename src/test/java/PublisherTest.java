@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -95,6 +97,7 @@ class PublisherTest {
     @Test
     void publisherCanPublishMessages() {
         Publisher createdPublisher = createPepeSanchez();
+
         final LocalDateTime publicationTime = LocalDateTime.now();
         final String message = "a message";
         Publication publication = createdPublisher.publish(message, publicationTime);
@@ -102,6 +105,20 @@ class PublisherTest {
         assertFalse(createdPublisher.doesNotHavePublications());
         assertTrue(publication.hasMessage(message));
         assertTrue(publication.hasPublishAt(publicationTime));
+    }
+
+    @Test
+    void timeLineHasPublisherPublicationsSortedByPublicationTime() {
+        Publisher createdPublisher = createPepeSanchez();
+
+        final LocalDateTime publicationTime = LocalDateTime.now();
+        final String message = "a message";
+        Publication firstPublication = createdPublisher.publish(message, publicationTime);
+        Publication secondPublication = createdPublisher.publish(message, publicationTime);
+
+        List<Publication> timeLine = createdPublisher.timeLine();
+
+        assertEquals(Arrays.asList(firstPublication, secondPublication), timeLine);
     }
 
     private Publisher createJuanPerez() {
