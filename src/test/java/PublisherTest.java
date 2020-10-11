@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -119,6 +120,19 @@ class PublisherTest {
         List<Publication> timeLine = createdPublisher.timeLine();
 
         assertEquals(Arrays.asList(firstPublication, secondPublication), timeLine);
+    }
+
+    @Test
+    void wallContainsPublisherPublications() {
+        Publisher follower = createPepeSanchez();
+
+        final LocalDateTime publicationTime = LocalDateTime.now();
+        final String message = "a message";
+        Publication firstPublication = follower.publish(message, publicationTime.plusSeconds(1));
+
+        List<Publication> wall = follower.wall();
+
+        assertEquals(Collections.singletonList(firstPublication), wall);
     }
 
     @Test
