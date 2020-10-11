@@ -68,16 +68,18 @@ public class Publisher {
     }
 
     public List<Publication> timeLine() {
-        return publications.stream()
-                .sorted(Publication::comparePublicationTimeWith)
-                .collect(Collectors.toList());
+        return sortedPublications(publications);
     }
 
     public List<Publication> wall() {
         List<Publication> wall = new ArrayList<>(publications);
         followees.forEach(followee -> followee.addPublicationTo(wall));
 
-        return wall.stream()
+        return sortedPublications(wall);
+    }
+
+    private List<Publication> sortedPublications(List<Publication> publications) {
+        return publications.stream()
                 .sorted(Publication::comparePublicationTimeWith)
                 .collect(Collectors.toList());
     }

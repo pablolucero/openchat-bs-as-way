@@ -136,6 +136,21 @@ class PublisherTest {
     }
 
     @Test
+    void wallContainsFolloweesPublications() {
+        Publisher follower = createPepeSanchez();
+        Publisher followee = createJuanPerez();
+        follower.follow(followee);
+
+        final LocalDateTime publicationTime = LocalDateTime.now();
+        final String message = "a message";
+        Publication firstPublication = followee.publish(message, publicationTime);
+
+        List<Publication> wall = follower.wall();
+
+        assertEquals(Collections.singletonList(firstPublication), wall);
+    }
+
+    @Test
     void wallContainsFolloweesPublicationsInOrder() {
         Publisher follower = createPepeSanchez();
         Publisher followee = createJuanPerez();
