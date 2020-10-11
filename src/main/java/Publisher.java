@@ -69,7 +69,20 @@ public class Publisher {
 
     public List<Publication> timeLine() {
         return publications.stream()
-                .sorted((left, right) -> left.comparePublicationTimeWith(right))
+                .sorted(Publication::comparePublicationTimeWith)
                 .collect(Collectors.toList());
+    }
+
+    public List<Publication> wall() {
+        List<Publication> wall = new ArrayList<>(publications);
+        followees.forEach(followee -> followee.addPublicationTo(wall));
+
+        return wall.stream()
+                .sorted(Publication::comparePublicationTimeWith)
+                .collect(Collectors.toList());
+    }
+
+    private void addPublicationTo(List<Publication> publicationsCollector) {
+        publicationsCollector.addAll(publications);
     }
 }
